@@ -1,82 +1,85 @@
+document.onload = ejecutarJS;
 
-document.getElementById('formTask').addEventListener('submit', saveTask);
+function ejecutarJS() {
 
-function saveTask(e) {
+  document.getElementById('formTask').addEventListener('submit', saveTask);
 
-  let title = document.getElementById('title').value;
+  function saveTask(e) {
 
-  let description = document.getElementById('description').value;
+    let title = document.getElementById('title').value;
 
-  // console.log(description);
+    let description = document.getElementById('description').value;
 
-  let task = {
-    title,
-    description
-  };
+    // console.log(description);
 
-  if (localStorage.getItem('tasks') === null) {
+    let task = {
+      title,
+      description
+    };
 
-    let tasks = [];
+    if (localStorage.getItem('tasks') === null) {
 
-    tasks.push(task);
+      let tasks = [];
 
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+      tasks.push(task);
 
-  } else {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
 
-    let tasks = JSON.parse(localStorage.getItem('tasks'));
+    } else {
 
-    tasks.push(task);
+      let tasks = JSON.parse(localStorage.getItem('tasks'));
 
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+      tasks.push(task);
 
-  }
-
-  getTasks();
-
-  document.getElementById('formTask').reset();
-
-  e.preventDefault();
-
-}
-
-function deleteTask(title) {
-
-  // console.log(title);
-
-  let tasks = JSON.parse(localStorage.getItem('tasks'));
-
-  for (let i = 0; i < tasks.length; i++) {
-
-    if (tasks[i].title == title) {
-
-      tasks.splice(i, 1);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
 
     }
 
+    getTasks();
+
+    document.getElementById('formTask').reset();
+
+    e.preventDefault();
+
   }
 
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  function deleteTask(title) {
 
-  getTasks();
+    // console.log(title);
 
-}
+    let tasks = JSON.parse(localStorage.getItem('tasks'));
 
-function getTasks() {
+    for (let i = 0; i < tasks.length; i++) {
 
-  let tasks = JSON.parse(localStorage.getItem('tasks'));
+      if (tasks[i].title == title) {
 
-  let tasksView = document.getElementById('tasks');
+        tasks.splice(i, 1);
 
-  tasksView.innerHTML = '';
+      }
 
-  for (let i = 0; i < tasks.length; i++) {
+    }
 
-    let title = tasks[i].title;
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
-    let description = tasks[i].description;
+    getTasks();
 
-    tasksView.innerHTML += `<div>
+  }
+
+  function getTasks() {
+
+    let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+    let tasksView = document.getElementById('tasks');
+
+    tasksView.innerHTML = '';
+
+    for (let i = 0; i < tasks.length; i++) {
+
+      let title = tasks[i].title;
+
+      let description = tasks[i].description;
+
+      tasksView.innerHTML += `<div>
                               <div>
                                 <p>${title} - ${description}
                                   <a href="#" onclick="deleteTask('${title}')">Delete</a>
@@ -84,8 +87,10 @@ function getTasks() {
                               </div>
                             </div>`;
 
+    }
+
   }
 
-}
+  getTasks();
 
-getTasks();
+}
